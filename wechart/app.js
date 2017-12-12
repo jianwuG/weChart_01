@@ -9,8 +9,7 @@ const wecharts=require('./encryption.js');
 
 const config={
     wechart:{
-        appID:'wxbe5dd2e7b00c8001',
-        appsecret:'f2a0db20b76edcd9d47eaa97d1623271',
+    
         Token:'jianwuWeChart',
     }
 };
