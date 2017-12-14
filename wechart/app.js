@@ -6,17 +6,11 @@
 const Koa=require('koa');
 const sha1=require('sha1');
 const wecharts=require('./encryption.js');
-
-const config={
-    wechart:{
-    
-        Token:'jianwuWeChart',
-    }
-};
+const opts=require('./../config.js');
 
 const app=new Koa();
 
 
 app.use(wecharts);
-app.listen(8080);
-console.log(1111111111111111);
+app.listen(opts.port);
+console.log("Listen Sever:",opts.port);
