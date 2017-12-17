@@ -10,6 +10,9 @@ const Wechat = require('./wechat');
 const contentType = require('content-type');
 const getRawBody = require('raw-body');
 const util = require('../util/util');
+const createXml = require('./createXml');
+const autoReply = require('./autoReply');
+
 module.exports = async(ctx) => {
     let wechat = new Wechat(opts);//我们实例化一下Wechat，就可以在中间件中直接调用了
     // console.log(ctx);
@@ -43,23 +46,14 @@ module.exports = async(ctx) => {
 
         let data = await util.xmlToJson(xml);
         let message = util.formatMessage(data.xml);
+        ctx.status = 200;
+        ctx.type = 'application/xml';
+        ctx.body = await autoReply.autoReply(message);
         console.log('222111', data);
         console.log('222111111', message);
-        if (message.MsgType === 'event') {
-            if (message.Event === 'subscribe') {
-                var createTime = new Date().getTime();
-                ctx.status = 200;
-                ctx.type = 'application/xml';
-                ctx.body = '<xml>' +
-                    '<ToUserName><![CDATA[' + message.FromUserName + ']]></ToUserName>' +
-                    '<FromUserName><![CDATA[' + message.ToUserName + ']]></FromUserName>' +
-                    '<CreateTime>' + createTime + '</CreateTime>' +
-                    '<MsgType><![CDATA[text]]></MsgType>' +
-                    '<Content><![CDATA[可以的老哥！！]]></Content>' +
-                    '</xml>'
-                return;
-            }
-        }
+        console.log(ctx.body);
+
+
     }
 
 };
